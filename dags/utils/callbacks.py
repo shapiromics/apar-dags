@@ -31,7 +31,7 @@ def get_job_status_update(status, **context):
 
 def callback_factory(dag, task_id, status):
     return ExtendedHttpOperator(
-        http_conn_id="http://127.0.0.1:8000/",
+        http_conn_id="apar_graphql",
         endpoint="graphql/",
         method="POST",
         headers={"Content-Type": "application/json"},
