@@ -1,3 +1,5 @@
+import json 
+
 from operators.ExtendedHttpOperator import ExtendedHttpOperator
 
 queries = dict()
