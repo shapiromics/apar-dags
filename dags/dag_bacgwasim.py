@@ -29,7 +29,9 @@ dag = DAG(
 # Callbacks
 start_callback = callback_factory(dag, "start_callback", "RUNNING")
 completed_callback = callback_factory(dag, "completed_callback", "COMPLETED")
-failed_callback = callback_factory(dag, "failed_callback", "FAILED")
+failed_callback = callback_factory(
+    dag, "failed_callback", "FAILED", trigger_rule="all_failed"
+)
 
 passing = KubernetesPodOperator(
     namespace="airflow",

@@ -29,7 +29,7 @@ def get_job_status_update(status, **context):
     })
 
 
-def callback_factory(dag, task_id, status):
+def callback_factory(dag, task_id, status, trigger_rule="all_success"):
     return ExtendedHttpOperator(
         http_conn_id="apar_graphql",
         endpoint="graphql/",
@@ -37,5 +37,6 @@ def callback_factory(dag, task_id, status):
         headers={"Content-Type": "application/json"},
         data_fn=partial(get_job_status_update, status),
         task_id=task_id,
+        trigger_rule=trigger_rule,
         dag=dag
     )
