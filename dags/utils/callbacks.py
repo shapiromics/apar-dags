@@ -1,4 +1,4 @@
-from dags.operators.ExtendedHttpOperator import ExtendedHttpOperator
+from operators.ExtendedHttpOperator import ExtendedHttpOperator
 
 queries = dict()
 
