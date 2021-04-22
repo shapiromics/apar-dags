@@ -33,17 +33,15 @@ failed_callback = callback_factory(
     dag, "failed_callback", "FAILED", trigger_rule="all_failed"
 )
 
-passing = KubernetesPodOperator(
+bacgwasim_help = KubernetesPodOperator(
     namespace="airflow",
-    image="python:3.6",
-    cmds=["python","-c"],
-    arguments=["print('hello world')"],
-    labels={"foo": "bar"},
-    name="passing-test",
-    task_id="passing-task",
+    image="pquay.io/biocontainers/bacgwasim:2.0.0--py_1",
+    cmds=["BacGWASim","--help"],
+    name="bacgwasim-help",
+    task_id="bacgwasim-help",
     get_logs=True,
     dag=dag
 )
 
 with dag:
-    start_callback >> passing >> [completed_callback, failed_callback]
+    start_callback >> bacgwasim_help >> [completed_callback, failed_callback]
