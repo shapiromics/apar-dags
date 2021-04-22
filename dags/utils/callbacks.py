@@ -1,3 +1,4 @@
+from functools import partial
 import json 
 
 from operators.ExtendedHttpOperator import ExtendedHttpOperator

@@ -1,6 +1,5 @@
 from airflow import DAG
 from datetime import datetime, timedelta
-from functools import partial
 import os
 import sys
 
