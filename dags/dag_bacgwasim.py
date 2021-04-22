@@ -1,9 +1,9 @@
 from airflow import DAG
 import sys
+sys.path.insert(0,os.path.abspath(os.path.dirname(__file__)))
 
 from utils.callbacks import callback_factory
 
-sys.path.insert(0,os.path.abspath(os.path.dirname(__file__)))
 
 default_args = {
     "owner": "airflow",
