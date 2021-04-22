@@ -1,4 +1,4 @@
-from operators import ExtendedHttpOperator
+from .operators import ExtendedHttpOperator
 
 queries = dict()
 

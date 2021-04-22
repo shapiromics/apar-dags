@@ -1,6 +1,6 @@
 from airflow import DAG
 
-from callbacks import callback_factory
+from .callbacks import callback_factory
 
 default_args = {
     "owner": "airflow",
