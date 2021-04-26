@@ -36,9 +36,9 @@ failed_callback = callback_factory(
 bacgwasim_help = KubernetesPodOperator(
     namespace="airflow",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
-    cmds=["BacGWASim","--help"],
-    name="bacgwasim-help",
-    task_id="bacgwasim-help",
+    cmds=["BacGWASim"],
+    name="bacgwasim",
+    task_id="bacgwasim",
     get_logs=True,
     dag=dag
 )
