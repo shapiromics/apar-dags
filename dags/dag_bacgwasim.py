@@ -36,8 +36,8 @@ failed_callback = callback_factory(
 
 
 volume = k8s.V1Volume(
-    name="apar-pv",
-    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="apar-pvc"),
+    name="airflow-pv",
+    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="airflow-pvc"),
 )
 
 volume_mount = k8s.V1VolumeMount(
