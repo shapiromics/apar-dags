@@ -1,11 +1,12 @@
 from airflow import DAG
-from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from datetime import datetime, timedelta
 import os
 import sys
 
 sys.path.insert(0,os.path.abspath(os.path.dirname(__file__)))
 
+from kubernetes.client import models as k8s
 from utils.callbacks import callback_factory
 
 
@@ -33,15 +34,27 @@ failed_callback = callback_factory(
     dag, "failed_callback", "FAILED", trigger_rule="all_failed"
 )
 
-bacgwasim_help = KubernetesPodOperator(
+
+volume = k8s.V1Volume(
+    name="apar-pv",
+    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="apar-pvc"),
+)
+
+volume_mount = k8s.V1VolumeMount(
+    name="apar-pv", mount_path="/data", sub_path=None, read_only=True
+)
+
+bacgwasim = KubernetesPodOperator(
     namespace="airflow",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
     cmds=["BacGWASim"],
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
-    dag=dag
+    dag=dag,
+    volumes=[volume],
+    volume_mounts=[volume_mount],
 )
 
 with dag:
-    start_callback >> bacgwasim_help >> [completed_callback, failed_callback]
+    start_callback >> bacgwasim >> [completed_callback, failed_callback]
