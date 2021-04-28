@@ -41,7 +41,7 @@ volume = k8s.V1Volume(
 )
 
 volume_mount = k8s.V1VolumeMount(
-    name="apar-pv", mount_path="/data", sub_path=None, read_only=True
+    name="apar-pv", mount_path="/data", sub_path=None
 )
 
 bacgwasim = KubernetesPodOperator(
