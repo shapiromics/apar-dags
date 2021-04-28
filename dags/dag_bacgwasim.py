@@ -45,7 +45,7 @@ volume_mount = k8s.V1VolumeMount(
 )
 
 bacgwasim = KubernetesPodOperator(
-    namespace="airflow",
+    namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
     cmds=["BacGWASim", "--output-dir", "/data/BacGWASim"],
     name="bacgwasim",
