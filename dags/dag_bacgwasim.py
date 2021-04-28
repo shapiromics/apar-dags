@@ -36,12 +36,12 @@ failed_callback = callback_factory(
 
 
 volume = k8s.V1Volume(
-    name="airflow-pv",
-    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="airflow-pvc"),
+    name="apar-pv",
+    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="apar-pvc"),
 )
 
 volume_mount = k8s.V1VolumeMount(
-    name="airflow-pv", mount_path="/data", sub_path=None, read_only=True
+    name="apar-pv", mount_path="/data", sub_path=None, read_only=True
 )
 
 bacgwasim = KubernetesPodOperator(
