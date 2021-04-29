@@ -41,13 +41,13 @@ volume = k8s.V1Volume(
 )
 
 volume_mount = k8s.V1VolumeMount(
-    name="apar-pv", mount_path="/data", sub_path=None, read_only=False
+    name="apar-pv", mount_path="/home", sub_path=None, read_only=False
 )
 
 bacgwasim = KubernetesPodOperator(
     namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
-    cmds=["ls", "/data/"],
+    cmds=["ls", "/home"],
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
