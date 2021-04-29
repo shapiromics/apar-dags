@@ -52,8 +52,8 @@ bacgwasim = KubernetesPodOperator(
     task_id="bacgwasim",
     get_logs=True,
     dag=dag,
-    volumes=[volume],
-    volume_mounts=[volume_mount],
+    # volumes=[volume],
+    # volume_mounts=[volume_mount],
 )
 
 with dag:
