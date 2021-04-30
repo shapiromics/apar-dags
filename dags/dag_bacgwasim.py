@@ -37,23 +37,23 @@ failed_callback = callback_factory(
 
 volume = k8s.V1Volume(
     name="apar-pv",
-    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="apar-pvc"),
+    persistent_volume_claim=k8s.V1PersistentVolumeClaimVolumeSource(claim_name="rook-nfs-pvc"),
 )
 
 volume_mount = k8s.V1VolumeMount(
-    name="apar-pv", mount_path="/home", sub_path=None, read_only=False
+    name="apar-pv", mount_path="/data", sub_path=None, read_only=False
 )
 
 bacgwasim = KubernetesPodOperator(
     namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
-    cmds=["ls", "/home"],
+    cmds=["ls", "/data"],
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
     dag=dag,
-    # volumes=[volume],
-    # volume_mounts=[volume_mount],
+    volumes=[volume],
+    volume_mounts=[volume_mount],
 )
 
 with dag:
