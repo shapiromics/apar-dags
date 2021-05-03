@@ -58,11 +58,9 @@ bacgwasim = KubernetesPodOperator(
 )
 
 zip_results = ZipOperator(
-    name="zip_bacgwasim_results",
     task_id="zip_bacgwasim_results",
     path_to_zip="/data/{{ dag_run.conf['files_id'] }}",
     path_to_save="/data/{{ dag_run.conf['files_id'] }}.zip",
-    get_logs=True,
     dag=dag,
 )
 
