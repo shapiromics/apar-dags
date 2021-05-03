@@ -64,8 +64,6 @@ zip_results = ZipOperator(
     path_to_save="/data/{{ dag_run.conf['files_id'] }}.zip",
     get_logs=True,
     dag=dag,
-    volumes=[volume],
-    volume_mounts=[volume_mount],
 )
 
 with dag:
