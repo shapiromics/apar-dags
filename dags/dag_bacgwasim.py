@@ -28,7 +28,7 @@ dag = DAG(
 )
 
 # Context
-result_folder = "/data/" + kwargs['dag_run'].conf.get('key')
+result_folder = "/data/" + kwargs["dag_run"].conf.get("files_id")
 
 # Callbacks
 start_callback = callback_factory(dag, "start_callback", "RUNNING")
@@ -50,7 +50,7 @@ volume_mount = k8s.V1VolumeMount(
 bacgwasim = KubernetesPodOperator(
     namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
-    cmds=["BacGWASim", "--output-dir", "/data/folder_n"],
+    cmds=["BacGWASim", "--output-dir", result_folder],
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
