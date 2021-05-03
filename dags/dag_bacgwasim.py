@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.operators.python import get_current_context
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from datetime import datetime, timedelta
 import os
@@ -26,6 +27,10 @@ dag = DAG(
     default_args=default_args,
     schedule_interval=None,
 )
+
+# Context
+context = get_current_context()
+result_folder = "/data/" + str(context["files_id"])
 
 # Callbacks
 start_callback = callback_factory(dag, "start_callback", "RUNNING")
