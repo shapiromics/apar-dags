@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0,os.path.abspath(os.path.dirname(__file__)))
 
 from kubernetes.client import models as k8s
+from operators.FileOperators import ZipOperator
 from utils.callbacks import callback_factory
 
 
@@ -56,5 +57,11 @@ bacgwasim = KubernetesPodOperator(
     volume_mounts=[volume_mount],
 )
 
+zip_results = ZipOperator(
+    task_id="zip_bacgwasim_results",
+    path_to_zip="/data/{{ dag_run.conf['files_id'] }}",
+    path_to_save="/data/{{ dag_run.conf['files_id'] }}.zip",
+)
+
 with dag:
-    start_callback >> bacgwasim >> [completed_callback, failed_callback]
+    start_callback >> bacgwasim >> zip_results >> [completed_callback, failed_callback]
