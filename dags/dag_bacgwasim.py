@@ -28,11 +28,9 @@ dag = DAG(
 )
 
 # Context
-def get_context(**context):
-    return context["dag_run"].conf
+def result_folder(**context):
+    return "/data/" + context["dag_run"].conf.get("files_id")
 
-conf = get_context()
-result_folder = "/data/" + conf.get("files_id")
 
 # Callbacks
 start_callback = callback_factory(dag, "start_callback", "RUNNING")
