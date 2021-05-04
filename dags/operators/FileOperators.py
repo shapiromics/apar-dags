@@ -21,7 +21,7 @@ class ZipOperator(BaseOperator):
     def execute(self, context):
         self.log.info("Running ZipOperator")
 
-        file_to_zip = os.path.basename(self.path_to_size)
+        file_to_zip = os.path.basename(self.path_to_zip)
         file_to_save = os.path.basename(self.path_to_save)
 
         dir_path_to_zip = os.path.dirname(os.path.abspath(self.path_to_zip))
