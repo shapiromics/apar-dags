@@ -9,6 +9,11 @@ class ZipOperator(BaseOperator):
     https://github.com/rssanders3/airflow-zip-operator-plugin/
     """
 
+    template_fields = (
+        path_to_zip,
+        path_to_save
+    )
+
     @apply_defaults
     def __init__(self,
                 path_to_zip,
