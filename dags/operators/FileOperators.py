@@ -10,8 +10,8 @@ class ZipOperator(BaseOperator):
     """
 
     template_fields = (
-        path_to_zip,
-        path_to_save
+        'path_to_zip',
+        'path_to_save'
     )
 
     @apply_defaults
