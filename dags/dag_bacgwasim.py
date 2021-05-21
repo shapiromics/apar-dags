@@ -11,6 +11,11 @@ from operators.FileOperators import ZipOperator
 from utils.callbacks import callback_factory
 
 
+def get_bacgwasim_cmds(**kwargs):
+    files_id = kwargs['dag_run'].conf['files_id']
+    return ["BacGWASim", "--output-dir", "/data/" + files_id]
+
+
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
@@ -48,7 +53,7 @@ volume_mount = k8s.V1VolumeMount(
 bacgwasim = KubernetesPodOperator(
     namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.1.0--pyhdfd78af_0",
-    cmds=["BacGWASim", "--output-dir", "/data/{{ dag_run.conf['files_id'] }}"],
+    cmds=get_bacgwasim_cmds,
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
