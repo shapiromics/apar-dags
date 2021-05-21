@@ -47,7 +47,7 @@ volume_mount = k8s.V1VolumeMount(
 
 bacgwasim = KubernetesPodOperator(
     namespace="apar",
-    image="quay.io/biocontainers/bacgwasim:2.0.0--py_1",
+    image="quay.io/biocontainers/bacgwasim:2.1.0--pyhdfd78af_0",
     cmds=["BacGWASim", "--output-dir", "/data/{{ dag_run.conf['files_id'] }}"],
     name="bacgwasim",
     task_id="bacgwasim",
