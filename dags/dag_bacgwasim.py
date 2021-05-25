@@ -22,10 +22,15 @@ default_args = {
     "retry_delay": timedelta(minutes=2)
 }
 
+user_filters = {
+    "to_list": lambda _list: _list.split(' ')
+}
+
 dag = DAG(
     "bacgwasim",
     default_args=default_args,
     schedule_interval=None,
+    user_defined_filter=user_filters,
 )
 
 # Callbacks
@@ -50,8 +55,9 @@ bacgwasim = KubernetesPodOperator(
     image="quay.io/biocontainers/bacgwasim:2.1.0--pyhdfd78af_0",
     cmds=[
         "BacGWASim", 
-        "--output-dir", "/data/{{ dag_run.conf['files_id'] }}"
-    ] + "{{ dag_run.conf['parameters'] }}",
+        "--output-dir", "/data/{{ dag_run.conf['files_id'] }}",
+        *"{{ dag_run.conf['parameters'] | to_list }}",
+    ],
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
