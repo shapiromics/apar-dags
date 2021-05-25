@@ -1,7 +1,6 @@
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from datetime import datetime, timedelta
-import ast
 import os
 import sys
 
@@ -58,7 +57,7 @@ bacgwasim = KubernetesPodOperator(
         "BacGWASim", 
         "--output-dir", "/data/{{ dag_run.conf['files_id'] }}",
     ],
-    arguments=ast.literal_eval("{{ dag_run.conf['parameters'] | to_list }}"),
+    arguments=eval("{{ dag_run.conf['parameters'] | to_list }}"),
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
