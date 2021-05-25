@@ -56,7 +56,7 @@ bacgwasim = KubernetesPodOperator(
     cmds=[
         "BacGWASim", 
         "--output-dir", "/data/{{ dag_run.conf['files_id'] }}",
-        *"{{ dag_run.conf['parameters'] | to_list }}",
+        "{{ dag_run.conf['parameters'] | to_list }}",
     ],
     name="bacgwasim",
     task_id="bacgwasim",
