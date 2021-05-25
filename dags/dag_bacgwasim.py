@@ -30,7 +30,7 @@ dag = DAG(
     "bacgwasim",
     default_args=default_args,
     schedule_interval=None,
-    user_defined_filter=user_filters,
+    user_defined_filters=user_filters,
 )
 
 # Callbacks
