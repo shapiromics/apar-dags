@@ -1,9 +1,8 @@
 from typing import Optional
 
 from airflow.exceptions import AirflowException
-from airflow.kubernetes import kube_client
+from airflow.kubernetes import kube_client, pod_launcher
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
-from airflow.providers.cncf.kubernetes.utils import pod_launcher
 from airflow.utils.decorators import apply_defaults
 from airflow.utils.state import State
 
@@ -40,11 +39,14 @@ class ContextualizedKubernetesPodOperator(KubernetesPodOperator):
 
             label_selector = self._get_pod_identifying_label_string(labels)
 
+            self.namespace = self.pod.metadata.namespace
+
             pod_list = client.list_namespaced_pod(self.namespace, label_selector=label_selector)
 
             if len(pod_list.items) > 1 and self.reattach_on_restart:
                 raise AirflowException(
-                    f'More than one pod running with labels: {label_selector}'
+                    'More than one pod running with labels: '
+                    '{label_selector}'.format(label_selector=label_selector)
                 )
 
             launcher = pod_launcher.PodLauncher(kube_client=client, extract_xcom=self.do_xcom_push)
@@ -60,8 +62,6 @@ class ContextualizedKubernetesPodOperator(KubernetesPodOperator):
             if final_state != State.SUCCESS:
                 status = self.client.read_namespaced_pod(self.pod.metadata.name, self.namespace)
                 raise AirflowException(f'Pod {self.pod.metadata.name} returned a failure: {status}')
-            context['task_instance'].xcom_push(key='pod_name', value=self.pod.metadata.name)
-            context['task_instance'].xcom_push(key='pod_namespace', value=self.namespace)
             return result
         except AirflowException as ex:
             raise AirflowException(f'Pod Launching failed: {ex}')
