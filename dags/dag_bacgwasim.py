@@ -8,6 +8,7 @@ sys.path.insert(0,os.path.abspath(os.path.dirname(__file__)))
 
 from kubernetes.client import models as k8s
 from operators.FileOperators import ZipOperator
+from operators.ContextualizedKubernetesPodOperator import ContextualizedKubernetesPodOperator
 from utils.callbacks import callback_factory
 
 
@@ -50,14 +51,14 @@ volume_mount = k8s.V1VolumeMount(
     name="apar-pv", mount_path="/data", sub_path=None, read_only=False
 )
 
-bacgwasim = KubernetesPodOperator(
+bacgwasim = ContextualizedKubernetesPodOperator(
     namespace="apar",
     image="quay.io/biocontainers/bacgwasim:2.1.0--pyhdfd78af_0",
     cmds=[
         "BacGWASim", 
         "--output-dir", "/data/{{ dag_run.conf['files_id'] }}",
     ],
-    arguments=eval("{{ dag_run.conf['parameters'] | to_list }}"),
+    # arguments=eval("{{ dag_run.conf['parameters'] | to_list }}"),
     name="bacgwasim",
     task_id="bacgwasim",
     get_logs=True,
