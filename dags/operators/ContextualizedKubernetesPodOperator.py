@@ -1,5 +1,9 @@
 from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
 from airflow.utils.decorators import apply_defaults
+import jinja2
+from kubernetes.client import CoreV1Api, models as k8s
+from typing import Any, Dict
+
 
 class ContextualizedKubernetesPodOperator(KubernetesPodOperator):
     
